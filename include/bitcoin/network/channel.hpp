@@ -42,8 +42,7 @@ public:
     typedef std::shared_ptr<channel> ptr;
 
     /// Construct an instance.
-    channel(threadpool& pool, socket::ptr socket, const settings& settings,
-        const bc::settings& bitcoin_settings);
+    channel(threadpool& pool, socket::ptr socket, const settings& settings);
 
     void start(result_handler handler) override;
 
@@ -62,6 +61,9 @@ protected:
     virtual void signal_activity() override;
     virtual void handle_stopping() override;
     virtual bool stopped(const code& ec) const;
+
+    // Expose polymorphic stopped method from base.
+    using proxy::stopped;
 
 private:
     void do_start(const code& ec, result_handler handler);
